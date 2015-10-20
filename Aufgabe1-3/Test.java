@@ -5,7 +5,12 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
- * @author Mike
+ * Aufteilung der Arbeiten: Allgemeines Treffen im TS3 mit gemeinsamen Brainstormen
+ * Durchgehende Review der Entstehung vom Code und Verbesserungen
+ *
+ * Michael: Grundkonzept programmiert
+ * Harald: Vorschläge zum Lösen des Aufgabe und Ideen
+ * Patrick: Überarbeitung der Semantik
  */
 public class Test {
 
