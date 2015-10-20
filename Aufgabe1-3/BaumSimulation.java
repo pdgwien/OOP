@@ -65,7 +65,7 @@ public class BaumSimulation {
             totholz_beginn += this.totholz;
             verwertet_beginn += (this.verwertung * ernte_beginn) / 100;
             verrottet_beginn += (this.verrottung * totholz_beginn) / 100;
-            gebundenesCO2_beginn += holzwald_beginn  - totholz_beginn - ernte_beginn ;
+            gebundenesCO2_beginn += this.holzzuwachs  - ((this.verwertung * ernte_beginn) / 100) - ((this.verrottung * totholz_beginn) / 100) ;
 
             map.put(i, new Jahr(i, holzwald_beginn, totholz_beginn, ernte_beginn, verwertet_beginn, verrottet_beginn, gebundenesCO2_beginn));
         }
