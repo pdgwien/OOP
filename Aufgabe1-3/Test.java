@@ -18,8 +18,11 @@ public class Test {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //        float holzwald_beginn = 100, totholz_beginn = 80, ernte_beginn = 15, verwertung_beginn = 30, verrottung_beginn = 40, gebundenesCO2_beginn = 300, holzzuwachs = 57, totholz = 10, erntemenge = 8, verwertung = 20, verrottung = 50;
-        float holzwald_beginn = 2000, totholz_beginn = 200, ernte_beginn = 0, verwertung_beginn = 100, verrottung_beginn = 0, gebundenesCO2_beginn = 2300, holzzuwachs = 1000, totholz = 50, erntemenge = 50, verwertung = 15, verrottung = 23;
+          float holzwald_beginn = 100, totholz_beginn = 80, ernte_beginn = 15, verwertung_beginn = 30, verrottung_beginn = 40, gebundenesCO2_beginn = 300, holzzuwachs = 57, totholz = 10, erntemenge = 8, verwertung = 20, verrottung = 50;
+     //   float holzwald_beginn = 2000, totholz_beginn = 200, ernte_beginn = 0, verwertung_beginn = 100, verrottung_beginn = 0, gebundenesCO2_beginn = 2300, holzzuwachs = 1000, totholz = 50, erntemenge = 50, verwertung = 15, verrottung = 23;
+     //   float holzwald_beginn = 2000, totholz_beginn = 200, ernte_beginn = 0, verwertung_beginn = 0, verrottung_beginn = 0, gebundenesCO2_beginn = 2300, holzzuwachs = 0, totholz = 0, erntemenge = 0, verwertung = 0, verrottung = 50;
+     //   float holzwald_beginn = 2000, totholz_beginn = 0, ernte_beginn = 0, verwertung_beginn = 0, verrottung_beginn = 0, gebundenesCO2_beginn = 2300, holzzuwachs = 0, totholz = 0, erntemenge = 10, verwertung = 50, verrottung = 0;
+        
         int jahre = 15;
 
 		/*
@@ -118,7 +121,7 @@ public class Test {
         return res + "|";
     }
 
-    public static float roundTo2(float f) {
+    public static double roundTo2(double f) {
         BigDecimal bd = new BigDecimal(f);
         BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return rounded.floatValue();

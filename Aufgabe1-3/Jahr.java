@@ -1,14 +1,14 @@
 public class Jahr {
     private int jahr;
 
-    private float holzwald;
-    private float totholz;
-    private float ernte;
-    private float verwertet;
-    private float verrottet;
-    private float gebundenesCO2;
+    private double holzwald;
+    private double totholz;
+    private double ernte;
+    private double verwertet;
+    private double verrottet;
+    private double gebundenesCO2;
 
-    public Jahr(int jahr, float holzwald, float totholz, float ernte, float verwertet, float verrottet, float gebundenesCO2) {
+    public Jahr(int jahr, double holzwald, double totholz, double ernte, double verwertet, double verrottet, double gebundenesCO2) {
         this.jahr = jahr;
         this.holzwald = holzwald;
         this.totholz = totholz;
@@ -22,27 +22,27 @@ public class Jahr {
         return this.jahr;
     }
 
-    public float getHolzwald() {
+    public double getHolzwald() {
         return this.holzwald;
     }
 
-    public float getTotholz() {
+    public double getTotholz() {
         return this.totholz;
     }
 
-    public float getErnte() {
+    public double getErnte() {
         return this.ernte;
     }
 
-    public float getVerwertet() {
+    public double getVerwertet() {
         return this.verwertet;
     }
 
-    public float getVerrottet() {
+    public double getVerrottet() {
         return this.verrottet;
     }
 
-    public float getGebundenesCO2() {
+    public double getGebundenesCO2() {
         return this.gebundenesCO2;
     }
 

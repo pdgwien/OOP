@@ -3,11 +3,11 @@ import java.util.HashMap;
 public class BaumSimulation {
     private Jahr anfangsJahr;
 
-    private float holzzuwachs;
-    private float erntemenge;
-    private float totholz;
-    private float verwertung;
-    private float verrottung;
+    private double holzzuwachs;
+    private double erntemenge;
+    private double totholz;
+    private double verwertung;
+    private double verrottung;
 
     /**
     * Konstruktor für die BaumSimulation
@@ -23,17 +23,17 @@ public class BaumSimulation {
     * @param verwertung Anteil des verwerteten Holzes vom geernteten Holz pro Jahr in Prozent
     * @param verrottung Anteil des geernteten Holzes vom toten Holz pro Jahr in Prozent
     */
-    public BaumSimulation(float holzwald_beginn,
-                          float totholz_beginn,
-                          float ernte_beginn,
-                          float verwertung_beginn,
-                          float verrottung_beginn,
-                          float gebundenesCO2_beginn,
-                          float holzzuwachs,
-                          float totholz,
-                          float erntemenge,
-                          float verwertung,
-                          float verrottung) {
+    public BaumSimulation(double holzwald_beginn,
+                          double totholz_beginn,
+                          double ernte_beginn,
+                          double verwertung_beginn,
+                          double verrottung_beginn,
+                          double gebundenesCO2_beginn,
+                          double holzzuwachs,
+                          double totholz,
+                          double erntemenge,
+                          double verwertung,
+                          double verrottung) {
         this.anfangsJahr = new Jahr(0, holzwald_beginn, totholz_beginn, ernte_beginn, verwertung_beginn, verrottung_beginn, gebundenesCO2_beginn);
 
         this.holzzuwachs = holzzuwachs;
@@ -50,12 +50,12 @@ public class BaumSimulation {
     public HashMap<Integer, Jahr> getDaten(int jahre) {
         HashMap<Integer, Jahr> map = new HashMap<Integer, Jahr>();
 
-        float holzwald_beginn = this.anfangsJahr.getHolzwald();
-        float totholz_beginn = this.anfangsJahr.getTotholz();
-        float ernte_beginn = this.anfangsJahr.getErnte();
-        float verwertet_beginn = this.anfangsJahr.getVerwertet();
-        float verrottet_beginn = this.anfangsJahr.getVerrottet();
-        float gebundenesCO2_beginn = this.anfangsJahr.getGebundenesCO2();
+        double holzwald_beginn = this.anfangsJahr.getHolzwald();
+        double totholz_beginn = this.anfangsJahr.getTotholz();
+        double ernte_beginn = this.anfangsJahr.getErnte();
+        double verwertet_beginn = this.anfangsJahr.getVerwertet();
+        double verrottet_beginn = this.anfangsJahr.getVerrottet();
+        double gebundenesCO2_beginn = this.anfangsJahr.getGebundenesCO2();
 
         map.put(0, anfangsJahr);
 
@@ -63,9 +63,9 @@ public class BaumSimulation {
             holzwald_beginn += this.holzzuwachs - this.erntemenge - this.totholz;
             ernte_beginn += this.erntemenge;
             totholz_beginn += this.totholz;
-            verwertet_beginn += (this.verwertung * ernte_beginn) / 100;
-            verrottet_beginn += (this.verrottung * totholz_beginn) / 100;
-            gebundenesCO2_beginn += this.holzzuwachs - ((this.verwertung * ernte_beginn) / 100) - ((this.verrottung * totholz_beginn) / 100) ;
+            verwertet_beginn += (this.verwertung * this.erntemenge) / 100;
+            verrottet_beginn += (this.verrottung * this.totholz) / 100;
+            gebundenesCO2_beginn += this.holzzuwachs - ((this.verwertung * this.erntemenge) / 100) - ((this.verrottung * this.totholz) / 100) ;
 
             map.put(i, new Jahr(i, holzwald_beginn, totholz_beginn, ernte_beginn, verwertet_beginn, verrottet_beginn, gebundenesCO2_beginn));
         }
