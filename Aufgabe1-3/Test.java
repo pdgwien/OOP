@@ -1,8 +1,6 @@
-import java.math.BigDecimal;
-import java.util.HashMap;
+import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Scanner;
 
 /**
  * Aufteilung der Arbeiten: Allgemeines Treffen im TS3 mit gemeinsamen Brainstormen
@@ -74,25 +72,24 @@ public class Test {
 		*/
         BaumSimulation ob = new BaumSimulation(holzwald_beginn, totholz_beginn, ernte_beginn, verwertung_beginn, verrottung_beginn, gebundenesCO2_beginn, holzzuwachs, totholz, erntemenge, verwertung, verrottung);
 
-        HashMap map = ob.getDaten(jahre);
+        List<Jahr> list = ob.getDaten(jahre);
 
         System.out.println("+------+----------+---------+-------+-----------+-----------+----------------+");
         System.out.println("| Jahr | Holzwald | Totholz | Ernte | Verwertet | Verrottet | Gebundenes CO2 |");
         System.out.println("+------+----------+---------+-------+-----------+-----------+----------------+");
-        for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
-            Entry<?, ?> entry = (Entry<?, ?>) it.next();
-
-            Jahr oj = (Jahr) entry.getValue();
+        for (Iterator it = list.iterator(); it.hasNext(); ) {
+            Jahr oj = (Jahr) it.next();
 
             String s = "|";
 
-            s += entry(new Integer(oj.getJahr()).toString(), 6);
-            s += entry(new Float(roundTo2(oj.getHolzwald())).toString(), 10);
-            s += entry(new Float(roundTo2(oj.getTotholz())).toString(), 9);
-            s += entry(new Float(roundTo2(oj.getErnte())).toString(), 7);
-            s += entry(new Float(roundTo2(oj.getVerwertet())).toString(), 11);
-            s += entry(new Float(roundTo2(oj.getVerrottet())).toString(), 11);
-            s += entry(new Float(roundTo2(oj.getGebundenesCO2())).toString(), 16);
+            DecimalFormat df = new DecimalFormat("0.0");
+            s += entry(String.valueOf(oj.getJahr()), 6);
+            s += entry(df.format(oj.getHolzwald()), 10);
+            s += entry(df.format(oj.getTotholz()), 9);
+            s += entry(df.format(oj.getErnte()), 7);
+            s += entry(df.format(oj.getVerwertet()), 11);
+            s += entry(df.format(oj.getVerrottet()), 11);
+            s += entry(df.format(oj.getGebundenesCO2()), 16);
             System.out.println(s);
             System.out.println("+------+----------+---------+-------+-----------+-----------+----------------+");
         }
@@ -119,12 +116,5 @@ public class Test {
             res += " ";
         }
         return res + "|";
-    }
-
-    public static double roundTo2(double f) {
-        BigDecimal bd = new BigDecimal(f);
-        BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
-        return rounded.floatValue();
-        //return Math.round(f * 100.0f) / 100.0f;
     }
 }

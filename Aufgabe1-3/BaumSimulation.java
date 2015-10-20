@@ -1,4 +1,5 @@
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class BaumSimulation {
     private Jahr anfangsJahr;
@@ -44,11 +45,11 @@ public class BaumSimulation {
     }
 
     /**
-    * Erzeugt eine Hashmap mit sovielen Zeilen, wieviele Jahre die Simulation laufen soll.
+    * Erzeugt eine Liste mit sovielen Zeilen, wieviele Jahre die Simulation laufen soll.
     * @param jahre Anzahl der Jahre die die Simulation laufen soll
     */
-    public HashMap<Integer, Jahr> getDaten(int jahre) {
-        HashMap<Integer, Jahr> map = new HashMap<Integer, Jahr>();
+    public List<Jahr> getDaten(int jahre) {
+        List<Jahr> list = new ArrayList<Jahr>();
 
         double holzwald_beginn = this.anfangsJahr.getHolzwald();
         double totholz_beginn = this.anfangsJahr.getTotholz();
@@ -57,7 +58,7 @@ public class BaumSimulation {
         double verrottet_beginn = this.anfangsJahr.getVerrottet();
         double gebundenesCO2_beginn = this.anfangsJahr.getGebundenesCO2();
 
-        map.put(0, anfangsJahr);
+        list.add(anfangsJahr);
 
         for (int i = 1; i <= jahre; i++) {
             holzwald_beginn += this.holzzuwachs - this.erntemenge - this.totholz;
@@ -67,10 +68,10 @@ public class BaumSimulation {
             verrottet_beginn += (this.verrottung * this.totholz) / 100;
             gebundenesCO2_beginn += this.holzzuwachs - ((this.verwertung * this.erntemenge) / 100) - ((this.verrottung * this.totholz) / 100) ;
 
-            map.put(i, new Jahr(i, holzwald_beginn, totholz_beginn, ernte_beginn, verwertet_beginn, verrottet_beginn, gebundenesCO2_beginn));
+            list.add(new Jahr(i, holzwald_beginn, totholz_beginn, ernte_beginn, verwertet_beginn, verrottet_beginn, gebundenesCO2_beginn));
         }
 
-        return map;
+        return list;
     }
 }
 
