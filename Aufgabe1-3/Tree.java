@@ -3,28 +3,99 @@
  */
 public class Tree {
     private int age = 0;
-    private double mass = 1.0;
-    private IGrowthModel growthModel;
+    private double aliveMass = 1.0;
+    private double deadMass = 0.0;
+    private double deadRottenMass = 0.0;
+    private double harvestedMass = 0.0;
+    private double harvestedRottenMass = 0.0;
+    private Modelable growthModel;
 
-    public Tree(IGrowthModel growthModel) {
-        this.growthModel = growthModel;
+    public Tree(Modelable modelable) {
+        this.growthModel = modelable;
     }
 
     /**
      * ages this tree one year
      */
-    public void tick() {
+    public TickResult tick() {
         this.age++;
-        this.mass += this.growthModel.getGrowth(age) * this.getGrowth();
+        double harvestedRottingMass = this.harvestedMass * (this.growthModel.getHarvestedRot(age) * this.getHarvestedRot());
+        this.harvestedRottenMass = harvestedRottingMass;
+        double harvestingMass = this.growthModel.getHarvest(age) * this.getHarvest();
+        this.harvestedMass += harvestingMass;
+        this.harvestedMass -= harvestedRottingMass;
+        double deadRottingMass = this.deadMass * (this.growthModel.getDeadRot(age) * this.getDeadRot());
+        this.deadRottenMass = deadRottingMass;
+        double dyingMass = this.growthModel.getLoss(age) * this.getLoss();
+        this.deadMass += dyingMass;
+        this.deadMass -= deadRottingMass;
+        this.aliveMass += this.growthModel.getGrowth(age) * this.getGrowth();
+        this.aliveMass -= dyingMass + harvestingMass;
+        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass);
     }
 
     /**
-     * tree specific growth percentage
+     * tree specific growth factor
      *
      * @return
      */
     private double getGrowth() {
-        return 1;
+        return 1.0;
     }
 
+    /**
+     * tree specific loss factor
+     * @return
+     */
+    private double getLoss() {
+        return 1.0;
+    }
+
+    /**
+     * tree specific dead rotting factor
+     * @return
+     */
+    private double getDeadRot() {
+        return 1.0;
+    }
+
+    /**
+     * tree specific harvest factor
+     * @return
+     */
+    private double getHarvest() {
+        return 1.0;
+    }
+
+    /**
+     * tree specific harvested rotting factor
+     * @return
+     */
+    private double getHarvestedRot() {
+        return 1.0;
+    }
+
+    public double getAliveMass() {
+        return this.aliveMass;
+    }
+
+    public double getBoundCO2() {
+        return this.aliveMass + this.deadMass + this.harvestedMass;
+    }
+
+    public double getDeadMass() {
+        return this.deadMass;
+    }
+
+    public double getDeadRottenMass() {
+        return this.deadRottenMass;
+    }
+
+    public double getHarvestedMass() {
+        return this.harvestedMass;
+    }
+
+    public double getHarvestedRottenMass() {
+        return this.harvestedRottenMass;
+    }
 }
