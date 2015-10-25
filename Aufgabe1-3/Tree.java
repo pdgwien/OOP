@@ -3,6 +3,8 @@
  */
 public class Tree {
     private int age = 0;
+    private double initialCost;
+    private double totalCost;
     private double aliveMass = 1.0;
     private double deadMass = 0.0;
     private double deadRottenMass = 0.0;
@@ -10,15 +12,18 @@ public class Tree {
     private double harvestedRottenMass = 0.0;
     private Modelable growthModel;
 
-    public Tree(Modelable modelable) {
+    public Tree(Modelable modelable, double initialCost) {
         this.growthModel = modelable;
+        this.initialCost = initialCost;
+        this.totalCost = initialCost;
     }
 
     /**
      * ages this tree one year
      */
+
+    //TODO: totalDeadMass oder normal? überlegen, ditto deadRottenMass, harvestedRottenMass
     public TickResult tick() {
-        this.age++;
         double harvestedRottingMass = this.harvestedMass * (this.growthModel.getHarvestedRot(age) * this.getHarvestedRot());
         this.harvestedRottenMass = harvestedRottingMass;
         double harvestingMass = this.growthModel.getHarvest(age) * this.getHarvest();
@@ -31,7 +36,10 @@ public class Tree {
         this.deadMass -= deadRottingMass;
         this.aliveMass += this.growthModel.getGrowth(age) * this.getGrowth();
         this.aliveMass -= dyingMass + harvestingMass;
-        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass);
+        this.totalCost += this.getMaintainanceCost();
+        this.totalCost -= this.getPrice() * harvestingMass;
+        this.age++;
+        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost);
     }
 
     /**
@@ -73,6 +81,22 @@ public class Tree {
      */
     private double getHarvestedRot() {
         return 1.0;
+    }
+
+    /**
+     * costs for maintainance of the tree per year
+     * @return
+     */
+    private double getMaintainanceCost() {
+        return 1.0;
+    }
+
+    /**
+     * price for 1 m^3 of wood
+     * @return
+     */
+    private double getPrice() {
+        return 10.0;
     }
 
     public double getAliveMass() {

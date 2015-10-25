@@ -15,7 +15,7 @@ public class DefaultModel implements Modelable {
 
     @Override
     public double getDeadRot(int age) {
-        return 0.1;
+        return 0.2;
     }
 
     @Override
@@ -25,6 +25,6 @@ public class DefaultModel implements Modelable {
 
     @Override
     public double getHarvestedRot(int age) {
-        return 0.1;
+        return 0.05;
     }
 }
