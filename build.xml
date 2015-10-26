@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="Aufgabe1-3" default="build" basedir="./Aufgabe1-3">
+  <target name="build">
+    <javac srcdir="." includeantruntime="false" />
+  </target>
+  <target name="run">
+    <java classname="Test">
+      <classpath>
+        <pathelement location="."/>
+        <pathelement path="."/>
+      </classpath>
+    </java>
+  </target>
+</project>
