@@ -1,11 +1,12 @@
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Aufteilung der Arbeiten: Allgemeines Treffen im TS3 mit gemeinsamen Brainstormen
  * Durchgehende Review der Entstehung vom Code und Verbesserungen
- *
+ * <p>
  * Michael: Grundkonzept programmiert
  * Harald: Vorschläge zum Lösen des Aufgabe und Ideen
  * Patrick: Überarbeitung der Semantik
@@ -14,6 +15,7 @@ public class Test {
 
     private static List<String> headers = Arrays.asList("Year", "AliveMass", "DeadMass", "DeadRottenMass", "HarvestedMass", "HarvestedRottenMass", "Bound CO2", "TotalCost", "Proceed", "Profit");
     private static String line = "";
+
     /**
      * @param args the command line arguments
      */
@@ -21,7 +23,7 @@ public class Test {
         Modelable defaultModel = new DefaultModel();
         Modelable extendedModel = new ExtendedModel();
 
-        Forest forest =  new Forest(1000, defaultModel, 10.0);
+        Forest forest = new Forest(1000, defaultModel, 10.0);
         Forest forest2 = new Forest(1000, extendedModel, 10.0);
         int years = 50;
 
@@ -85,13 +87,30 @@ public class Test {
         String l = "";
         for (String header : headers) {
             l += "+";
-            for (int i = 0; i < header.length()+2; i++) {
+            for (int i = 0; i < header.length() + 2; i++) {
                 l += "-";
             }
         }
         l += "+";
         line = "\n" + l;
-        String headerLine = String.join(" | ", headers) + " |";
+        String headerLine = joinWith(" | ", headers) + " |";
         return l + "\n| " + headerLine + "\n" + l;
+    }
+
+    public static String joinWith(final String separator, final List<String> list) {
+
+        final StringBuilder result = new StringBuilder();
+
+        final Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            final String value = iterator.next();
+            result.append(value);
+
+            if (iterator.hasNext()) {
+                result.append(separator);
+            }
+        }
+
+        return result.toString();
     }
 }
