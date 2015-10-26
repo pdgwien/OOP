@@ -43,7 +43,7 @@ public class Tree {
         this.totalCost += this.getMaintainanceCost();
         this.totalCost -= this.getRetailPrice() * harvestingMass;
 
-        this.proceed = this.getRetailPrice() * harvestingMass;
+        this.proceed += this.getRetailPrice() * harvestingMass;
 
         this.age++;
         return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed);

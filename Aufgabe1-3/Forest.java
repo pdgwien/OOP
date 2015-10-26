@@ -33,6 +33,7 @@ public class Forest {
         this.harvestedMass = 0.0;
         //this.harvestedRottenMass = 0.0;
         this.totalCost = 0.0;
+        this.proceed = 0.0;
         for (Tree tree : this.trees) {
             TickResult result = tree.tick();
             this.aliveMass += result.getAliveMass();
