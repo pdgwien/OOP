@@ -8,15 +8,18 @@ public final class TickResult {
     private final double harvestedMass;
     private final double harvestedRottenMass;
     private final double totalCost;
+    private final double proceed;
 
-    public TickResult(double aliveMass, double deadMass, double deadRottenMass, double harvestedMass, double harvestedRottenMass, double totalCost) {
+    public TickResult(double aliveMass, double deadMass, double deadRottenMass, double harvestedMass, double harvestedRottenMass, double totalCost, double proceed) {
         this.aliveMass = aliveMass;
         this.deadMass = deadMass;
         this.deadRottenMass = deadRottenMass;
         this.harvestedMass = harvestedMass;
         this.harvestedRottenMass = harvestedRottenMass;
         this.totalCost = totalCost;
+        this.proceed = proceed;
     }
+
 
     public double getAliveMass() {
         return aliveMass;
@@ -41,4 +44,10 @@ public final class TickResult {
     public double getTotalCost() {
         return totalCost;
     }
+
+    public double getProceed(){
+        return proceed;
+    }
+
+
 }

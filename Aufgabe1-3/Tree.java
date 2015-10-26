@@ -5,17 +5,22 @@ public class Tree {
     private int age = 0;
     private double initialCost;
     private double totalCost;
+    private double proceed;
     private double aliveMass = 1.0;
     private double deadMass = 0.0;
     private double deadRottenMass = 0.0;
     private double harvestedMass = 0.0;
     private double harvestedRottenMass = 0.0;
+
+
+
     private Modelable growthModel;
 
-    public Tree(Modelable modelable, double initialCost) {
+    public Tree(Modelable modelable, double initialCost, double proceed) {
         this.growthModel = modelable;
         this.initialCost = initialCost;
         this.totalCost = initialCost;
+        this.proceed = proceed;
     }
 
     /**
@@ -24,6 +29,7 @@ public class Tree {
 
     //TODO: totalDeadMass oder normal? überlegen, ditto deadRottenMass, harvestedRottenMass
     public TickResult tick() {
+
         double harvestedRottingMass = this.harvestedMass * (this.growthModel.getHarvestedRot(age) * this.getHarvestedRot());
         this.harvestedRottenMass = harvestedRottingMass;
         double harvestingMass = this.growthModel.getHarvest(age) * this.getHarvest();
@@ -34,12 +40,17 @@ public class Tree {
         double dyingMass = this.growthModel.getLoss(age) * this.getLoss();
         this.deadMass += dyingMass;
         this.deadMass -= deadRottingMass;
+
         this.aliveMass += this.growthModel.getGrowth(age) * this.getGrowth();
         this.aliveMass -= dyingMass + harvestingMass;
+
         this.totalCost += this.getMaintainanceCost();
         this.totalCost -= this.getPrice() * harvestingMass;
+
+        this.proceed = this.getRetailPrice() * this.getHarvestedMass();
+
         this.age++;
-        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost);
+        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed);
     }
 
     /**
@@ -99,6 +110,14 @@ public class Tree {
         return 10.0;
     }
 
+    /**
+     * retail price for 1 m³ of wood
+     * @return
+     */
+    private double getRetailPrice(){
+        return 15.0;
+    }
+
     public double getAliveMass() {
         return this.aliveMass;
     }
@@ -122,4 +141,5 @@ public class Tree {
     public double getHarvestedRottenMass() {
         return this.harvestedRottenMass;
     }
+
 }
