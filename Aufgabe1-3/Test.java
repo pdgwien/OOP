@@ -1,7 +1,6 @@
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Aufteilung der Arbeiten: Allgemeines Treffen im TS3 mit gemeinsamen Brainstormen
@@ -22,8 +21,8 @@ public class Test {
         Modelable defaultModel = new DefaultModel();
         Modelable extendedModel = new ExtendedModel();
 
-        Forest forest =  new Forest(1000, defaultModel, 10.0, 11.0);
-        Forest forest2 = new Forest(1000, extendedModel, 10.0, 11.0);
+        Forest forest =  new Forest(1000, defaultModel, 10.0);
+        Forest forest2 = new Forest(1000, extendedModel, 10.0);
         int years = 50;
 
 

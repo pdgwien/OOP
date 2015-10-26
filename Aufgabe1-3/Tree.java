@@ -3,7 +3,6 @@
  */
 public class Tree {
     private int age = 0;
-    private double initialCost;
     private double totalCost;
     private double proceed;
     private double aliveMass = 1.0;
@@ -16,18 +15,15 @@ public class Tree {
 
     private Modelable growthModel;
 
-    public Tree(Modelable modelable, double initialCost, double proceed) {
+    public Tree(Modelable modelable, double initialCost) {
         this.growthModel = modelable;
-        this.initialCost = initialCost;
         this.totalCost = initialCost;
-        this.proceed = proceed;
     }
 
     /**
      * ages this tree one year
      */
 
-    //TODO: totalDeadMass oder normal? überlegen, ditto deadRottenMass, harvestedRottenMass
     public TickResult tick() {
 
         double harvestedRottingMass = this.harvestedMass * (this.growthModel.getHarvestedRot(age) * this.getHarvestedRot());
@@ -45,9 +41,9 @@ public class Tree {
         this.aliveMass -= dyingMass + harvestingMass;
 
         this.totalCost += this.getMaintainanceCost();
-        this.totalCost -= this.getPrice() * harvestingMass;
+        this.totalCost -= this.getRetailPrice() * harvestingMass;
 
-        this.proceed = this.getRetailPrice() * this.getHarvestedMass();
+        this.proceed = this.getRetailPrice() * harvestingMass;
 
         this.age++;
         return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed);
@@ -100,14 +96,6 @@ public class Tree {
      */
     private double getMaintainanceCost() {
         return 1.0;
-    }
-
-    /**
-     * price for 1 m^3 of wood
-     * @return
-     */
-    private double getPrice() {
-        return 10.0;
     }
 
     /**

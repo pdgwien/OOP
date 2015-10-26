@@ -15,10 +15,10 @@ public class Forest {
     private double proceed;
     private double profit;
 
-    public Forest(int stock, Modelable modelable, double initialCost, double proceed) {
+    public Forest(int stock, Modelable modelable, double initialCost) {
         this.trees = new ArrayList<>(stock);
         for (int i = 0; i < stock; i++) {
-            this.trees.add(new Tree(modelable, initialCost, proceed));
+            this.trees.add(new Tree(modelable, initialCost));
         }
         this.aliveMass = stock;
         this.totalCost = initialCost * stock;
@@ -33,7 +33,6 @@ public class Forest {
         this.harvestedMass = 0.0;
         //this.harvestedRottenMass = 0.0;
         this.totalCost = 0.0;
-        this.profit = 0.0;
         for (Tree tree : this.trees) {
             TickResult result = tree.tick();
             this.aliveMass += result.getAliveMass();
