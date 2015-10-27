@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Test {
 
-    private static List<String> headers = Arrays.asList("Year", "AliveMass", "DeadMass", "DeadRottenMass", "HarvestedMass", "HarvestedRottenMass", "Bound CO2", "TotalCost", "Proceed", "Profit");
+    private static List<String> headers = Arrays.asList("Year", "AliveMass", "DeadMass", "DeadRottenMass", "HarvestedMass", "HarvestedRottenMass", "Bound CO2", "TotalCost", "Proceed", "Profit", "Erfolungswert", "Endprofit");
     private static String line = "";
 
     /**
@@ -22,39 +22,50 @@ public class Test {
     public static void main(String[] args) {
         Modelable defaultModel = new DefaultModel();
         Modelable extendedModel = new ExtendedModel();
+        Modelable klimaModel = new KlimaModel(KlimaModel.KLIMA_SOMMER);
 
         Forest forest = new Forest(1000, defaultModel, 10.0);
         Forest forest2 = new Forest(1000, extendedModel, 10.0);
+        Forest forest3 = new Forest(1000, klimaModel, 10.0);
         int years = 50;
 
-
+        /*
+        * alle 10 Jahre 300 trees roden
+        */
         System.out.println(makeHeader());
         for (int i = 0; i < years; i++) {
-            System.out.println(format(i, forest.getAliveMass(), forest.getDeadMass(), forest.getDeadRottenMass(), forest.getHarvestedMass(), forest.getHarvestedRottenMass(), forest.getBoundCO2(), forest.getTotalCost(), forest.getProceed(), forest.getProfit()));
+            try {
+                if( (i+1) % 10 == 0 ) forest.roden(300);
+            }
+            catch(Exception e) {e.printStackTrace();}
+            System.out.println(format(i, forest.getAliveMass(), forest.getDeadMass(), forest.getDeadRottenMass(), forest.getHarvestedMass(), forest.getHarvestedRottenMass(), forest.getBoundCO2(), forest.getTotalCost(), forest.getProceed(), forest.getProfit(), forest.getErholungsWert(), forest.getEndprofit()));
             forest.tick();
         }
 
         System.out.println(makeHeader());
         for (int i = 0; i < years; i++) {
-            System.out.println(format(i, forest2.getAliveMass(), forest2.getDeadMass(), forest2.getDeadRottenMass(), forest2.getHarvestedMass(), forest2.getHarvestedRottenMass(), forest2.getBoundCO2(), forest2.getTotalCost(), forest2.getProceed(), forest2.getProfit()));
+            System.out.println(format(i, forest2.getAliveMass(), forest2.getDeadMass(), forest2.getDeadRottenMass(), forest2.getHarvestedMass(), forest2.getHarvestedRottenMass(), forest2.getBoundCO2(), forest2.getTotalCost(), forest2.getProceed(), forest2.getProfit(), forest2.getErholungsWert(), forest2.getEndprofit()));
             forest2.tick();
+        }
+
+        System.out.println(makeHeader());
+        for (int i = 0; i < years; i++) {
+            System.out.println(format(i, forest3.getAliveMass(), forest3.getDeadMass(), forest3.getDeadRottenMass(), forest3.getHarvestedMass(), forest3.getHarvestedRottenMass(), forest3.getBoundCO2(), forest3.getTotalCost(), forest3.getProceed(), forest3.getProfit(), forest3.getErholungsWert(), forest3.getEndprofit()));
+            forest3.tick();
         }
     }
 
-    public static String format(int year, double aliveMass, double deadMass, double deadRottenMass, double harvestedMass, double harvestedRottenMass, double boundCO2, double totalCost, double proceed, double profit) {
+    public static String format(int year, double... d)
+    {
         String s = "|";
         DecimalFormat df = new DecimalFormat("0.0");
 
         s += entry(String.valueOf(year), 0);
-        s += entry(df.format(aliveMass), 1);
-        s += entry(df.format(deadMass), 2);
-        s += entry(df.format(deadRottenMass), 3);
-        s += entry(df.format(harvestedMass), 4);
-        s += entry(df.format(harvestedRottenMass), 5);
-        s += entry(df.format(boundCO2), 6);
-        s += entry(df.format(totalCost), 7);
-        s += entry(df.format(proceed), 8);
-        s += entry(df.format(profit), 9);
+
+        for(int i = 0; i < d.length; i++)
+        {
+             s += entry(df.format(d[i]), i+1);
+        }
         s += line;
         return s;
     }

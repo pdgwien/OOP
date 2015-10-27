@@ -27,4 +27,9 @@ public class DefaultModel implements Modelable {
     public double getHarvestedRot(int age) {
         return 0.05;
     }
+
+    @Override
+    public short getForestType() {
+           return Tree.TREE_LAUBBAUM;
+    }
 }

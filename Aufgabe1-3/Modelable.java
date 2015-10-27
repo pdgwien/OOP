@@ -37,4 +37,5 @@ public interface Modelable {
      */
     double getHarvestedRot(int age);
 
+    short getForestType();
 }

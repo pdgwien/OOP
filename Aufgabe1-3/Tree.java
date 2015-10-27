@@ -10,14 +10,21 @@ public class Tree {
     private double deadRottenMass = 0.0;
     private double harvestedMass = 0.0;
     private double harvestedRottenMass = 0.0;
+    private double erholungsWert = 0.0;
+    private double endprofit = 0.0;
 
+    private short treeType = 0;
 
+    public static final short TREE_LAUBBAUM = 1;
+    public static final short TREE_MISCHBAUM = 2;
+    public static final short TREE_TANNE = 3;
 
     private Modelable growthModel;
 
     public Tree(Modelable modelable, double initialCost) {
         this.growthModel = modelable;
         this.totalCost = initialCost;
+        this.treeType = modelable.getForestType();
     }
 
     /**
@@ -45,8 +52,23 @@ public class Tree {
 
         this.proceed += this.getRetailPrice() * harvestingMass;
 
+        switch( this.treeType )
+        {
+            case Tree.TREE_LAUBBAUM:
+                 this.erholungsWert += 0.06;
+            break;
+            case Tree.TREE_MISCHBAUM:
+                 this.erholungsWert += 0.03;
+            break;
+            case Tree.TREE_TANNE:
+                 this.erholungsWert += 0.01;
+            break;
+        }
+
+        this.endprofit += this.erholungsWert * 0.01;
+
         this.age++;
-        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed);
+        return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed, this.erholungsWert, this.endprofit);
     }
 
     /**
@@ -130,4 +152,12 @@ public class Tree {
         return this.harvestedRottenMass;
     }
 
+    public short getTreeType() {
+           return treeType;
+    }
+
+    public double getErholungsWert()
+    {
+           return this.erholungsWert;
+    }
 }

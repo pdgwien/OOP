@@ -39,5 +39,8 @@ public class ExtendedModel implements Modelable{
         else return 1;
     }
 
-
+    @Override
+    public short getForestType() {
+           return Tree.TREE_TANNE;
+    }
 }

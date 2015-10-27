@@ -14,17 +14,17 @@ public class Forest {
     private double totalCost;
     private double proceed;
     private double profit;
+    private double erholungsWert;
+    private double endprofit;
 
     public Forest(int stock, Modelable modelable, double initialCost) {
-        this.trees = new ArrayList<>(stock);
+        this.trees = new ArrayList<Tree>(stock);
         for (int i = 0; i < stock; i++) {
             this.trees.add(new Tree(modelable, initialCost));
         }
         this.aliveMass = stock;
         this.totalCost = initialCost * stock;
     }
-
-
 
     public void tick() {
         this.aliveMass = 0.0;
@@ -43,9 +43,21 @@ public class Forest {
             this.harvestedRottenMass += result.getHarvestedRottenMass();
             this.totalCost += result.getTotalCost();
             this.proceed += result.getProceed();
+            this.erholungsWert += result.getErholungsWert();
+            this.endprofit += result.getEndprofit();
         }
         this.profit = this.proceed - this.totalCost;
 
+        this.endprofit = this.endprofit + this.profit;
+    }
+
+    public void roden(int trees)
+    {
+         for(int i = 0; i < ( (trees >= this.trees.size()-1) ? this.trees.size()-1 : trees ); i++)
+         {
+              //this.erholungsWert -= this.trees.get(i).getErholungsWert();
+              this.trees.remove(i);
+         }
     }
 
     public void tick(int years) {
@@ -85,8 +97,18 @@ public class Forest {
     public double getProceed(){
         return this.proceed;
     }
+
     public double getProfit(){
         return this.profit;
     }
 
+    public double getErholungsWert()
+    {
+           return this.erholungsWert;
+    }
+
+    public double getEndprofit()
+    {
+           return this.endprofit;
+    }
 }
