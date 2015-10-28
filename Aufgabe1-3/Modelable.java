@@ -4,6 +4,7 @@
 public interface Modelable {
     /**
      * returns how much a tree should grow in one year in m^3
+     *
      * @param age age of the tree
      * @return growth
      */
@@ -11,6 +12,7 @@ public interface Modelable {
 
     /**
      * returns how much of a tree dies off in one year in m^3
+     *
      * @param age
      * @return
      */
@@ -18,6 +20,7 @@ public interface Modelable {
 
     /**
      * returns percentage of how much dead wood rots in one year
+     *
      * @param age
      * @return
      */
@@ -25,6 +28,7 @@ public interface Modelable {
 
     /**
      * returns how much wood is harvested in one year in m^3
+     *
      * @param age
      * @return
      */
@@ -32,10 +36,9 @@ public interface Modelable {
 
     /**
      * returns percentage of how much harvested wood rots or is burned in one year
+     *
      * @param age
      * @return
      */
     double getHarvestedRot(int age);
-
-    short getForestType();
 }

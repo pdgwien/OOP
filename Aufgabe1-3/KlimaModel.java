@@ -4,8 +4,7 @@ public class KlimaModel implements Modelable {
     public static final short KLIMA_WINTER = 2;
     private short klima = 0;
 
-    public KlimaModel( short klima )
-    {
+    public KlimaModel(short klima) {
         this.klima = klima;
     }
 
@@ -34,26 +33,19 @@ public class KlimaModel implements Modelable {
         return 0.05 * getFaktor();
     }
 
-    @Override
-    public short getForestType() {
-           return Tree.TREE_LAUBBAUM;
-    }
-
-    private double getFaktor()
-    {
+    private double getFaktor() {
         double temperatur = 0.0;
         double niederschlag = 0.0;
 
-        switch(this.klima)
-        {
-           case KlimaModel.KLIMA_SOMMER:
+        switch (this.klima) {
+            case KlimaModel.KLIMA_SOMMER:
                 temperatur = 1.1;
                 niederschlag = 0.5;
-           break;
-           case KlimaModel.KLIMA_WINTER:
+                break;
+            case KlimaModel.KLIMA_WINTER:
                 temperatur = 0.2;
                 niederschlag = 1.0;
-           break;
+                break;
         }
 
         return niederschlag + temperatur;

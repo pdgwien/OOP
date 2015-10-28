@@ -1,3 +1,5 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,18 @@ public class Forest {
     private double erholungsWert;
     private double endprofit;
 
-    public Forest(int stock, Modelable modelable, double initialCost) {
-        this.trees = new ArrayList<Tree>(stock);
+    public Forest(Constructor<? extends Tree> treeConstructor, int stock, Modelable modelable, double initialCost) {
+        this.trees = new ArrayList<>(stock);
         for (int i = 0; i < stock; i++) {
-            this.trees.add(new Tree(modelable, initialCost));
+            try {
+                this.trees.add(treeConstructor.newInstance(new Object[]{modelable, initialCost}));
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
         this.aliveMass = stock;
         this.totalCost = initialCost * stock;
@@ -28,12 +38,11 @@ public class Forest {
 
     public void tick() {
         this.aliveMass = 0.0;
-        //this.deadMass = 0.0;
-        //this.deadRottenMass = 0.0;
         this.harvestedMass = 0.0;
-        //this.harvestedRottenMass = 0.0;
         this.totalCost = 0.0;
         this.proceed = 0.0;
+        this.endprofit = 0.0;
+        this.erholungsWert = 0.0;
         for (Tree tree : this.trees) {
             TickResult result = tree.tick();
             this.aliveMass += result.getAliveMass();
@@ -51,13 +60,10 @@ public class Forest {
         this.endprofit = this.endprofit + this.profit;
     }
 
-    public void roden(int trees)
-    {
-         for(int i = 0; i < ( (trees >= this.trees.size()-1) ? this.trees.size()-1 : trees ); i++)
-         {
-              //this.erholungsWert -= this.trees.get(i).getErholungsWert();
-              this.trees.remove(i);
-         }
+    public void clearTrees(int trees) {
+        for (int i = 0; i < ((trees >= this.trees.size() - 1) ? this.trees.size() - 1 : trees); i++) {
+            this.trees.remove(i);
+        }
     }
 
     public void tick(int years) {
@@ -94,21 +100,19 @@ public class Forest {
         return this.totalCost;
     }
 
-    public double getProceed(){
+    public double getProceed() {
         return this.proceed;
     }
 
-    public double getProfit(){
+    public double getProfit() {
         return this.profit;
     }
 
-    public double getErholungsWert()
-    {
-           return this.erholungsWert;
+    public double getErholungsWert() {
+        return this.erholungsWert;
     }
 
-    public double getEndprofit()
-    {
-           return this.endprofit;
+    public double getEndprofit() {
+        return this.endprofit;
     }
 }

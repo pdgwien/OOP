@@ -13,18 +13,11 @@ public class Tree {
     private double erholungsWert = 0.0;
     private double endprofit = 0.0;
 
-    private short treeType = 0;
-
-    public static final short TREE_LAUBBAUM = 1;
-    public static final short TREE_MISCHBAUM = 2;
-    public static final short TREE_TANNE = 3;
-
     private Modelable growthModel;
 
     public Tree(Modelable modelable, double initialCost) {
         this.growthModel = modelable;
         this.totalCost = initialCost;
-        this.treeType = modelable.getForestType();
     }
 
     /**
@@ -52,20 +45,8 @@ public class Tree {
 
         this.proceed += this.getRetailPrice() * harvestingMass;
 
-        switch( this.treeType )
-        {
-            case Tree.TREE_LAUBBAUM:
-                 this.erholungsWert += 0.06;
-            break;
-            case Tree.TREE_MISCHBAUM:
-                 this.erholungsWert += 0.03;
-            break;
-            case Tree.TREE_TANNE:
-                 this.erholungsWert += 0.01;
-            break;
-        }
-
-        this.endprofit += this.erholungsWert * 0.01;
+        this.erholungsWert += this.getErholungsWert();
+        this.endprofit += this.getErholungsWert();
 
         this.age++;
         return new TickResult(this.aliveMass, this.deadMass, this.deadRottenMass, this.harvestedMass, this.harvestedRottenMass, this.totalCost, this.proceed, this.erholungsWert, this.endprofit);
@@ -76,55 +57,65 @@ public class Tree {
      *
      * @return
      */
-    private double getGrowth() {
+    protected double getGrowth() {
         return 1.0;
     }
 
     /**
      * tree specific loss factor
+     *
      * @return
      */
-    private double getLoss() {
+    protected double getLoss() {
         return 1.0;
     }
 
     /**
      * tree specific dead rotting factor
+     *
      * @return
      */
-    private double getDeadRot() {
+    protected double getDeadRot() {
         return 1.0;
     }
 
     /**
      * tree specific harvest factor
+     *
      * @return
      */
-    private double getHarvest() {
+    protected double getHarvest() {
         return 1.0;
     }
 
     /**
      * tree specific harvested rotting factor
+     *
      * @return
      */
-    private double getHarvestedRot() {
+    protected double getHarvestedRot() {
         return 1.0;
+    }
+
+    protected double getErholungsWert() {
+        return 0.01;
     }
 
     /**
      * costs for maintainance of the tree per year
+     *
      * @return
      */
-    private double getMaintainanceCost() {
+    protected double getMaintainanceCost() {
         return 1.0;
     }
 
     /**
      * retail price for 1 m³ of wood
+     *
      * @return
      */
-    private double getRetailPrice(){
+    protected double getRetailPrice() {
         return 15.0;
     }
 
@@ -152,12 +143,4 @@ public class Tree {
         return this.harvestedRottenMass;
     }
 
-    public short getTreeType() {
-           return treeType;
-    }
-
-    public double getErholungsWert()
-    {
-           return this.erholungsWert;
-    }
 }

@@ -7,9 +7,9 @@ import java.util.List;
  * Aufteilung der Arbeiten: Allgemeines Treffen im TS3 mit gemeinsamen Brainstormen
  * Durchgehende Review der Entstehung vom Code und Verbesserungen
  * <p>
- * Michael: Grundkonzept programmiert
- * Harald: Vorschläge zum Lösen des Aufgabe und Ideen
- * Patrick: Überarbeitung der Semantik
+ * Michael: Klimamodell & Sonderereignisse implementiert sowie Erholungswert
+ * Harald: Modelle erstellt sowie Kosten & Gewinn
+ * Patrick: Programmierung des Kernprogrammes, generelle Überarbeitungen
  */
 public class Test {
 
@@ -24,20 +24,28 @@ public class Test {
         Modelable extendedModel = new ExtendedModel();
         Modelable klimaModel = new KlimaModel(KlimaModel.KLIMA_SOMMER);
 
-        Forest forest = new Forest(1000, defaultModel, 10.0);
-        Forest forest2 = new Forest(1000, extendedModel, 10.0);
-        Forest forest3 = new Forest(1000, klimaModel, 10.0);
+        Forest forest = null;
+        Forest forest2 = null;
+        Forest forest3 = null;
+        try {
+            forest = new Forest(Tree.class.getConstructor(Modelable.class, double.class), 1000, defaultModel, 10.0);
+            forest2 = new Forest(LeafTree.class.getConstructor(Modelable.class, double.class), 1000, extendedModel, 15.0);
+            forest3 = new Forest(NeedleTree.class.getConstructor(Modelable.class, double.class), 1000, klimaModel, 13.0);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         int years = 50;
 
         /*
-        * alle 10 Jahre 300 trees roden
+        * alle 10 Jahre 300 trees clearTrees
         */
         System.out.println(makeHeader());
         for (int i = 0; i < years; i++) {
             try {
-                if( (i+1) % 10 == 0 ) forest.roden(300);
+                if ((i + 1) % 10 == 0) forest.clearTrees(300);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            catch(Exception e) {e.printStackTrace();}
             System.out.println(format(i, forest.getAliveMass(), forest.getDeadMass(), forest.getDeadRottenMass(), forest.getHarvestedMass(), forest.getHarvestedRottenMass(), forest.getBoundCO2(), forest.getTotalCost(), forest.getProceed(), forest.getProfit(), forest.getErholungsWert(), forest.getEndprofit()));
             forest.tick();
         }
@@ -55,16 +63,14 @@ public class Test {
         }
     }
 
-    public static String format(int year, double... d)
-    {
+    public static String format(int year, double... d) {
         String s = "|";
         DecimalFormat df = new DecimalFormat("0.0");
 
         s += entry(String.valueOf(year), 0);
 
-        for(int i = 0; i < d.length; i++)
-        {
-             s += entry(df.format(d[i]), i+1);
+        for (int i = 0; i < d.length; i++) {
+            s += entry(df.format(d[i]), i + 1);
         }
         s += line;
         return s;
