@@ -19,8 +19,19 @@ public class Forest {
     private double erholungsWert;
     private double endprofit;
 
+    /**
+     * Konstruktor
+     *
+     * @param Constructor treeConstructor                    Übergibt ein erzeugtes Constructor-Object aus einer beliebigen Baumklasse
+     * @param int stock                                      Anzahl an Bäumen
+     * @param Modelable modelable                            Definiert die Anfangswerte der Bäume, sowie deren Typ
+     * @param double initialCost                             Anfangskosten für den Wald
+     */
     public Forest(Constructor<? extends Tree> treeConstructor, int stock, Modelable modelable, double initialCost) {
-        this.trees = new ArrayList<>(stock);
+        // Legt eine Arraylist an vom Typ Tree an
+        this.trees = new ArrayList<Tree>(stock);
+
+        // Durchläuft stock-mal die Schleife und erzeut Bäume, die aus dem Konstruktor-Objekt erzeugt werden vom jeweiligen Typ
         for (int i = 0; i < stock; i++) {
             try {
                 this.trees.add(treeConstructor.newInstance(new Object[]{modelable, initialCost}));
@@ -32,10 +43,15 @@ public class Forest {
                 e.printStackTrace();
             }
         }
+        // Lebendmasse definieren
         this.aliveMass = stock;
+        // Gesamtkosten berechnen
         this.totalCost = initialCost * stock;
     }
 
+    /**
+     * Gesamten Wald um ein Jahr altern lassen
+     */
     public void tick() {
         this.aliveMass = 0.0;
         this.harvestedMass = 0.0;
@@ -43,6 +59,8 @@ public class Forest {
         this.proceed = 0.0;
         this.endprofit = 0.0;
         this.erholungsWert = 0.0;
+
+        // ArrayList durchlaufen
         for (Tree tree : this.trees) {
             TickResult result = tree.tick();
             this.aliveMass += result.getAliveMass();
@@ -60,58 +78,101 @@ public class Forest {
         this.endprofit = this.endprofit + this.profit;
     }
 
+    /**
+     * Bäume entfernen
+     *
+     * @param int trees                 Anzahl der Bäume, die entfernt werden sollen
+     */
     public void clearTrees(int trees) {
         for (int i = 0; i < ((trees >= this.trees.size() - 1) ? this.trees.size() - 1 : trees); i++) {
             this.trees.remove(i);
         }
     }
 
+    /**
+     * Wald um eine bestimmte Anzahl von Jahren altern lassen
+     *
+     * @param int years       Anzahl der Jahre
+     */
     public void tick(int years) {
         for (int i = 0; i < years; i++) {
             this.tick();
         }
     }
 
+    /**
+     * @return double   Gesamtmasse lebend
+     */
     public double getAliveMass() {
         return this.aliveMass;
     }
 
+    /**
+     * @return double   Gesamtmasse geerntet
+     */
     public double getHarvestedMass() {
         return harvestedMass;
     }
 
+    /**
+     * @return double   Gesamtmasse geerntet und verrottet
+     */
     public double getHarvestedRottenMass() {
         return harvestedRottenMass;
     }
 
+    /**
+     * @return double   Gesamtmasse tot
+     */
     public double getDeadMass() {
         return deadMass;
     }
 
+    /**
+     * @return double   Gesamtmasse verrottet und tot
+     */
     public double getDeadRottenMass() {
         return deadRottenMass;
     }
 
+    /**
+     * @return double   Gesamtmasse gebundenes CO2
+     */
     public double getBoundCO2() {
         return this.getAliveMass() + this.getDeadMass() + this.getHarvestedMass();
     }
 
+    /**
+     * @return double   Gesamtkosten Wald
+     */
     public double getTotalCost() {
         return this.totalCost;
     }
 
+    /**
+     * @return double   Gesamte Kosten
+     */
     public double getProceed() {
         return this.proceed;
     }
 
+    /**
+     * @return double   Gesamter Profit
+     */
     public double getProfit() {
         return this.profit;
     }
 
+    /**
+     * @return double   Gesamter Erholungswert
+     */
     public double getErholungsWert() {
         return this.erholungsWert;
     }
 
+    /**
+     * @return double   Gesamter Endprofit
+     */
     public double getEndprofit() {
         return this.endprofit;
     }
