@@ -26,11 +26,13 @@ public class Test {
         Modelable klimaModel = new KlimaModel(KlimaModel.KLIMA_SOMMER); // Klima-Typen werden als Konstanten gespeichert und stellen short-Variablen dar
 
         // Definiert die drei Test-Wälder vom Typ Forest (Zusammenfassung von Tree-Objekten)
+        Forest forest = null;
         Forest forest1 = null;
         Forest forest2 = null;
         Forest forest3 = null;
         try {
             // Erzeugt Objekte vom Typ Forest und referenziert diese auf die Variablen
+            forest = new Forest(Tree.class.getConstructor(Modelable.class, double.class), 1000, defaultModel, 10.0);
             forest1 = new Forest(Tree.class.getConstructor(Modelable.class, double.class), 1000, defaultModel, 10.0);
             forest2 = new Forest(LeafTree.class.getConstructor(Modelable.class, double.class), 1000, extendedModel, 15.0);
             forest3 = new Forest(NeedleTree.class.getConstructor(Modelable.class, double.class), 1000, klimaModel, 13.0);
@@ -151,7 +153,7 @@ public class Test {
     }
 
     /**
-     * Pendant zu PHP's implode()-Funktion
+     * Pendant zu PHP's implode()-Funktion, sowie Java8 joinWith()
      */
     public static String joinWith(final String separator, final List<String> list) {
 

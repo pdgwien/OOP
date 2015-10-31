@@ -22,16 +22,16 @@ public class Forest {
     /**
      * Konstruktor
      *
-     * @param Constructor treeConstructor                    Übergibt ein erzeugtes Constructor-Object aus einer beliebigen Baumklasse
-     * @param int stock                                      Anzahl an Bäumen
-     * @param Modelable modelable                            Definiert die Anfangswerte der Bäume, sowie deren Typ
-     * @param double initialCost                             Anfangskosten für den Wald
+     * @param Constructor treeConstructor                    Ãœbergibt ein erzeugtes Constructor-Object aus einer beliebigen Baumklasse
+     * @param int stock                                      Anzahl an Blumen
+     * @param Modelable modelable                            Ist ein Wachstumsmodel mit Anfangswert 0, Typ wird durch den Konstruktor festgelegt
+     * @param double initialCost                             Anfangskosten fÃ¼r einen Baum
      */
     public Forest(Constructor<? extends Tree> treeConstructor, int stock, Modelable modelable, double initialCost) {
         // Legt eine Arraylist an vom Typ Tree an
         this.trees = new ArrayList<Tree>(stock);
 
-        // Durchläuft stock-mal die Schleife und erzeut Bäume, die aus dem Konstruktor-Objekt erzeugt werden vom jeweiligen Typ
+        // DurchlÃ¤uft stock-mal die Schleife und erzeut BÃ¤ume, die aus dem Konstruktor-Objekt erzeugt werden vom jeweiligen Typ
         for (int i = 0; i < stock; i++) {
             try {
                 this.trees.add(treeConstructor.newInstance(new Object[]{modelable, initialCost}));
@@ -79,9 +79,9 @@ public class Forest {
     }
 
     /**
-     * Bäume entfernen
+     * BÃ¤ume entfernen
      *
-     * @param int trees                 Anzahl der Bäume, die entfernt werden sollen
+     * @param int trees                 Anzahl der BÃ¤ume, die entfernt werden sollen
      */
     public void clearTrees(int trees) {
         for (int i = 0; i < ((trees >= this.trees.size() - 1) ? this.trees.size() - 1 : trees); i++) {
