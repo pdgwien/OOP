@@ -3,7 +3,7 @@
  */
 public class LeafTree extends Tree {
 
-    public LeafTree(Modelable modelable, double initialCost) {
+    public LeafTree(DefaultModel modelable, double initialCost) {
         super(modelable, initialCost);
     }
 

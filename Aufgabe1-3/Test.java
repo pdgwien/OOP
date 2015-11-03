@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -20,25 +21,25 @@ public class Test {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Definiert zwei Wachstumsmodelle und speichert sie in Variablen vom Typ Modelable, da alle Modelle das Modelable-Interface implementieren
-        Modelable defaultModel = new DefaultModel();
-        Modelable extendedModel = new ExtendedModel();
-        Modelable klimaModel = new KlimaModel(KlimaModel.KLIMA_SOMMER); // Klima-Typen werden als Konstanten gespeichert und stellen short-Variablen dar
+        // Definiert drei Wachstumsmodelle und speichert sie in Variablen vom Typ DefaultModel, da alle Modelle von DefaultModel erben
+        DefaultModel defaultModel = new DefaultModel();
+        DefaultModel extendedModel = new ExtendedModel();
+        DefaultModel klimaModel = new KlimaModel(KlimaModel.KLIMA_SOMMER); // Klima-Typen werden als Konstanten gespeichert und stellen short-Variablen dar
 
-        // Definiert die drei Test-Wälder vom Typ Forest (Zusammenfassung von Tree-Objekten)
-        Forest forest = null;
-        Forest forest1 = null;
-        Forest forest2 = null;
-        Forest forest3 = null;
-        try {
-            // Erzeugt Objekte vom Typ Forest und referenziert diese auf die Variablen
-            forest = new Forest(Tree.class.getConstructor(Modelable.class, double.class), 1000, defaultModel, 10.0);
-            forest1 = new Forest(Tree.class.getConstructor(Modelable.class, double.class), 1000, defaultModel, 10.0);
-            forest2 = new Forest(LeafTree.class.getConstructor(Modelable.class, double.class), 1000, extendedModel, 15.0);
-            forest3 = new Forest(NeedleTree.class.getConstructor(Modelable.class, double.class), 1000, klimaModel, 13.0);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        List<Tree> trees1 = new ArrayList<>();
+        List<Tree> trees2 = new ArrayList<>();
+        List<Tree> trees3 = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++) {
+            trees1.add(new Tree(defaultModel, 10.0));
+            trees2.add(new LeafTree(extendedModel, 15.0));
+            trees3.add(new NeedleTree(klimaModel, 13.0));
         }
+
+        // Erzeugt Objekte vom Typ Forest
+        Forest forest1 = new Forest(trees1, 10.0);
+        Forest forest2 = new Forest(trees2, 15.0);
+        Forest forest3 = new Forest(trees3, 13.0);
         // Definiert, wie lange die Simulation läuft
         int years = 50;
 
@@ -52,7 +53,7 @@ public class Test {
             // Sort dafür, dass alle 10 Jahre 300 Bäume entfernt werden
             try
             {
-                if ((i + 1) % 10 == 0) forest.clearTrees(300);
+                if ((i + 1) % 10 == 0) forest1.clearTrees(300);
             }
             // Fängt ArrayIndexOutOfBoundsExceptions ab
             catch (Exception e)
@@ -60,9 +61,9 @@ public class Test {
                 e.printStackTrace();
             }
             // Gibt alle Daten als Tabelle aus
-            System.out.println(format(i, forest.getAliveMass(), forest.getDeadMass(), forest.getDeadRottenMass(), forest.getHarvestedMass(), forest.getHarvestedRottenMass(), forest.getBoundCO2(), forest.getTotalCost(), forest.getProceed(), forest.getProfit(), forest.getErholungsWert(), forest.getEndprofit()));
+            System.out.println(format(i, forest1.getAliveMass(), forest1.getDeadMass(), forest1.getDeadRottenMass(), forest1.getHarvestedMass(), forest1.getHarvestedRottenMass(), forest1.getBoundCO2(), forest1.getTotalCost(), forest1.getProceed(), forest1.getProfit(), forest1.getErholungsWert(), forest1.getEndprofit()));
             // Lässt den Wald um ein Jahr altern
-            forest.tick();
+            forest1.tick();
         }
 
         // Erzeugt den Header

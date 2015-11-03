@@ -13,13 +13,13 @@ public class Tree {
     private double erholungsWert = 0.0;
     private double endprofit = 0.0;
 
-    private Modelable growthModel;
+    private DefaultModel growthModel;
 
     /**
      * @param Modelable modelable      Ausgangswerte für einen Baum
      * @param double initialCost       Anfangskosten
      */
-    public Tree(Modelable modelable, double initialCost) {
+    public Tree(DefaultModel modelable, double initialCost) {
         this.growthModel = modelable;
         this.totalCost = initialCost;
     }

@@ -1,4 +1,4 @@
-public class KlimaModel implements Modelable {
+public class KlimaModel extends DefaultModel {
 
     public static final short KLIMA_SOMMER = 1;
     public static final short KLIMA_WINTER = 2;

@@ -22,31 +22,14 @@ public class Forest {
     /**
      * Konstruktor
      *
-     * @param Constructor treeConstructor                    Übergibt ein erzeugtes Constructor-Object aus einer beliebigen Baumklasse
-     * @param int stock                                      Anzahl an Blumen
-     * @param Modelable modelable                            Ist ein Wachstumsmodel mit Anfangswert 0, Typ wird durch den Konstruktor festgelegt
-     * @param double initialCost                             Anfangskosten für einen Baum
+     * @param List trees                    Liste an Bäumen
      */
-    public Forest(Constructor<? extends Tree> treeConstructor, int stock, Modelable modelable, double initialCost) {
-        // Legt eine Arraylist an vom Typ Tree an
-        this.trees = new ArrayList<Tree>(stock);
-
-        // Durchläuft stock-mal die Schleife und erzeut Bäume, die aus dem Konstruktor-Objekt erzeugt werden vom jeweiligen Typ
-        for (int i = 0; i < stock; i++) {
-            try {
-                this.trees.add(treeConstructor.newInstance(new Object[]{modelable, initialCost}));
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
+    public Forest(List<Tree> trees, double initialCost) {
+        this.trees = trees;
         // Lebendmasse definieren
-        this.aliveMass = stock;
+        this.aliveMass = trees.size();
         // Gesamtkosten berechnen
-        this.totalCost = initialCost * stock;
+        this.totalCost = initialCost * trees.size();
     }
 
     /**

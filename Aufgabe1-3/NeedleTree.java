@@ -3,7 +3,7 @@
  */
 public class NeedleTree extends Tree {
 
-    public NeedleTree(Modelable modelable, double initialCost) {
+    public NeedleTree(DefaultModel modelable, double initialCost) {
         super(modelable, initialCost);
     }
 

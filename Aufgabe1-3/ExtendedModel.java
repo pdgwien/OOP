@@ -2,7 +2,7 @@
  * @author Harald Bernhard <e1054776@student.tuwien.ac.at>
  */
 
-public class ExtendedModel implements Modelable {
+public class ExtendedModel extends DefaultModel {
 
     @Override
     public double getGrowth(int age) {
