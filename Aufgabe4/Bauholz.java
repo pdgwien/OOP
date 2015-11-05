@@ -1,1 +1,2 @@
-public interface Bauholz extends Etikett{}
+public interface Bauholz extends Etikett {
+}

@@ -1,1 +1,2 @@
-public interface Verwertbar extends Bauholz {}
+public interface Verwertbar extends Bauholz {
+}

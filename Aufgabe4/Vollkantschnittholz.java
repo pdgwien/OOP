@@ -1,1 +1,2 @@
-public class Vollkantschnittholz extends Schnittholz {}
+public class Vollkantschnittholz extends Schnittholz {
+}

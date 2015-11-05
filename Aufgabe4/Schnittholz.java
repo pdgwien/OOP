@@ -1,5 +1,4 @@
-public class Schnittholz implements Etikett
-{
+public class Schnittholz implements Etikett {
     private int laenge;
     private int dicke;
     private int breite;
@@ -7,41 +6,34 @@ public class Schnittholz implements Etikett
     private Etikett alt;
 
     @Override
-    public int laenge()
-    {
+    public int laenge() {
         return this.laenge;
     }
 
-    public int dicke()
-    {
+    public int dicke() {
         return this.dicke;
     }
 
-    public int breite()
-    {
+    public int breite() {
         return this.breite;
     }
 
     @Override
-    public String datum()
-    {
+    public String datum() {
         return this.datum;
     }
 
     @Override
-    public Etikett alt()
-    {
+    public Etikett alt() {
         return this.alt;
     }
 
-    public void neu(Schnittholz neu)
-    {
+    public void neu(Schnittholz neu) {
         this.alt = neu;
     }
 
-    public void neu(Verwertbar neu)
-    {
-        this.alt = (Etikett)neu;
+    public void neu(Verwertbar neu) {
+        this.alt = (Etikett) neu;
     }
 
     /*
@@ -57,9 +49,8 @@ public class Schnittholz implements Etikett
     }
     */
 
-    public Etikett[] saegen()
-    {
+    public Etikett[] saegen() {
         // Todo: Implementierung von: In welche Teile wird die Klasse zerlegt
-        return new Etikett[] {};
+        return new Etikett[]{};
     }
 }

@@ -1,30 +1,25 @@
-public class Rundholz implements Etikett
-{
+public class Rundholz implements Etikett {
     private int laenge;
     private int staerke;
     private String datum;
     private Etikett alt;
 
     @Override
-    public int laenge()
-    {
+    public int laenge() {
         return this.laenge;
     }
 
-    public int staerke()
-    {
+    public int staerke() {
         return this.staerke;
     }
 
     @Override
-    public String datum()
-    {
+    public String datum() {
         return this.datum;
     }
 
     @Override
-    public Etikett alt()
-    {
+    public Etikett alt() {
         return this.alt;
     }
 }
