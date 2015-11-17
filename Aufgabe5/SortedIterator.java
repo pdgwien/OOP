@@ -1,5 +1,3 @@
-package aufgabe5;
-
 public class SortedIterator<T extends Smaller> extends BasicIterator<T>
 {
     private T lastEntry;

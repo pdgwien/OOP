@@ -1,5 +1,3 @@
-package aufgabe5;
-
 import java.util.Iterator;
 
 public class SortedSet<Type extends Smaller> extends BasicSet

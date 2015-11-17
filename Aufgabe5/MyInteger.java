@@ -1,5 +1,3 @@
-package aufgabe5;
-
 public class MyInteger implements Smaller<MyInteger> {
 
     private int value;
