@@ -1,10 +1,10 @@
-import java.util.Iterator;
+public class SortedSet<Type extends Smaller> extends BasicSet {
 
-public class SortedSet<Type extends Smaller> extends BasicSet
-{
-    @Override
-    public Iterator iterator()
-    {
-        return new SortedIterator( super.getIterator() );
+    public boolean add(Type a) {
+        if (!linkedList.contains(a) && !a.smaller(linkedList.getLast())) {
+            linkedList.add(a);
+            return true;
+        }
+        return false;
     }
 }

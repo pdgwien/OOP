@@ -1,31 +1,22 @@
-import java.util.Arrays;
 import java.util.Iterator;
 
-public class BasicSet<Type> implements Iterable<Type>
-{
-    private Iterator<Type> it;
-    private Object[] array;
+public class BasicSet<Type> implements Iterable<Type> {
+    protected LinkedList<Type> linkedList;
 
-    public BasicSet()
-    {
-        this.array = new Object[0];
+    public BasicSet() {
+        linkedList = new LinkedList<>();
     }
 
-    public void add( Type a )
-    {
-        this.array = Arrays.copyOf(this.array, this.array.length + 1);
-        this.array[this.array.length - 1] = a;
-    }
-
-    protected BasicIterator getIterator()
-    {
-        return new BasicIterator( this.array );
+    public boolean add(Type a) {
+        if (!linkedList.contains(a)) {
+            linkedList.add(a);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Iterator iterator()
-    {
-        this.it = new BasicIterator( this.array );
-        return this.it;
+    public Iterator iterator() {
+        return linkedList.iterator();
     }
 }

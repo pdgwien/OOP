@@ -1,4 +1,3 @@
-public interface Smaller<T>
-{
+public interface Smaller<T> {
     public boolean smaller(T a);
 }
