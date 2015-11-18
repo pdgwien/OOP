@@ -2,14 +2,7 @@ public class MyInteger implements Smaller<MyInteger> {
 
     private int value;
 
-    public MyInteger() {
-    }
-
     public MyInteger(int value) {
-        this.value = value;
-    }
-
-    public MyInteger(Integer value) {
         this.value = value;
     }
 
@@ -19,6 +12,9 @@ public class MyInteger implements Smaller<MyInteger> {
 
     @Override
     public boolean smaller(MyInteger a) {
+        if (a == null) {
+            return false;
+        }
         return this.value < a.getValue();
     }
 

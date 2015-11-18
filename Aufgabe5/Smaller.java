@@ -1,3 +1,3 @@
-public interface Smaller<T> {
-    public boolean smaller(T a);
+public interface Smaller<T extends Smaller<T>> {
+    boolean smaller(T a);
 }

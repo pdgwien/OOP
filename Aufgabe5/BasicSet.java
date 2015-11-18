@@ -1,22 +1,22 @@
 import java.util.Iterator;
 
 public class BasicSet<Type> implements Iterable<Type> {
-    protected LinkedList<Type> linkedList;
+    private LinkedList<Type> linkedList;
 
-    public BasicSet() {
-        linkedList = new LinkedList<>();
+    BasicSet() {
+        this.linkedList = new LinkedList<>();
     }
 
     public boolean add(Type a) {
-        if (!linkedList.contains(a)) {
-            linkedList.add(a);
+        if (!this.linkedList.contains(a)) {
+            this.linkedList.add(a);
             return true;
         }
         return false;
     }
 
     @Override
-    public Iterator iterator() {
-        return linkedList.iterator();
+    public Iterator<Type> iterator() {
+        return this.linkedList.iterator();
     }
 }
