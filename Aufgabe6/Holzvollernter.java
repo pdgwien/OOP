@@ -1,4 +1,4 @@
-public abstract class Holzvollernter
+public abstract class Holzvollernter implements Ernter
 {
 	private int ID;
 	private int typ;
@@ -9,6 +9,9 @@ public abstract class Holzvollernter
 	
 	public static final int TYP_STUECKE_SCHNEIDEN = 1;
 	public static final int TYP_HACKSCHNAETZELN = 2;
+	
+	public static final int ERNTER_TYP_SCHREITER = 1;
+	public static final int ERNTER_TYP_FAHRER = 2;
 	
 	public Holzvollernter( int ID, float laenge )
 	{

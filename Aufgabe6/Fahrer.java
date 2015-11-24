@@ -19,4 +19,16 @@ public class Fahrer extends Holzvollernter
 	{
 		return this.strecke;
 	}
+	
+	@Override
+	public int getErnterTyp()
+	{
+		return Holzvollernter.ERNTER_TYP_FAHRER;
+	}
+	
+	@Override
+	public String getErnteTypAlsString()
+	{
+		return "Schreiter";
+	}
 }

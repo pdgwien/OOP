@@ -16,4 +16,16 @@ public class Schreiter extends Holzvollernter
 	{
 		return this.schritte;
 	}
+	
+	@Override
+	public int getErnterTyp()
+	{
+		return Holzvollernter.ERNTER_TYP_SCHREITER;
+	}
+	
+	@Override
+	public String getErnteTypAlsString()
+	{
+		return "Schreiter";
+	}
 }
