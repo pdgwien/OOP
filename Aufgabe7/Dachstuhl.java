@@ -11,26 +11,26 @@ public abstract class Dachstuhl {
         this.hoelzer = new ArrayList<>();
     }
 
-    public void addFittingWoodFromStorage(Bauholzlager storage) {
+    protected void addFittingWoodFromStorage(Bauholzlager storage) {
         Bauholz bh = storage.get(this);
         if (bh != null) {
             this.hoelzer.add(bh);
         }
     }
 
-    public boolean isValidWood(KantholzGehobelt wood) {
+    protected boolean isValidWood(KantholzGehobelt wood) {
         return false;
     }
 
-    public boolean isValidWood(KantholzSaegerauh wood) {
+    protected boolean isValidWood(KantholzSaegerauh wood) {
         return false;
     }
 
-    public boolean isValidWood(RundholzGehobelt wood) {
+    protected boolean isValidWood(RundholzGehobelt wood) {
         return false;
     }
 
-    public boolean isValidWood(RundholzSaegerauh wood) {
+    protected boolean isValidWood(RundholzSaegerauh wood) {
         return false;
     }
 

@@ -7,7 +7,7 @@ public class WohnHolzbauDachstuhl extends Dachstuhl {
     }
 
     @Override
-    public boolean isValidWood(RundholzGehobelt wood) {
+    protected boolean isValidWood(RundholzGehobelt wood) {
         return wood.getLength() >= this.getLength();
     }
 }
