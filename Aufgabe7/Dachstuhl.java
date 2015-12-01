@@ -41,7 +41,7 @@ public abstract class Dachstuhl {
     }
 
     public int price() {
-        return hoelzer.stream().mapToInt(Bauholz::getPrice).sum();
+        return this.hoelzer.stream().mapToInt(Bauholz::getPrice).sum();
     }
 
     public String getName() {
