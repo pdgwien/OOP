@@ -8,6 +8,8 @@ public class Test {
 		BuchdruckerKolonie bk = new BuchdruckerKolonie( wald, 5, 4 );
 		
 		BuchdruckerKolonie bk2 = new BuchdruckerKolonie( wald, 8, 8 );
+
+    Logger logger = Logger.getLogger(Test.class.getName());
 		
 		Thread t = new Thread(bk);
 		t.start();
@@ -21,7 +23,7 @@ public class Test {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException ex) {
-						Logger.getLogger(Aufgabe8.class.getName()).log(Level.SEVERE, null, ex);
+						logger.log(Level.SEVERE, ex.toString(), ex);
 					}
 				}
 		});
