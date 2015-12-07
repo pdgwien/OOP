@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Aufgabe7" default="build" basedir="./Aufgabe7">
+<project name="Aufgabe8" default="build" basedir="./Aufgabe8">
   <target name="build">
     <javac srcdir="." includeantruntime="false" />
   </target>
