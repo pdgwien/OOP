@@ -2,7 +2,7 @@
  * Aufgabenteilung:
  * Patrick Grosslicht: alles
  * Michael Hambrusch: initiale Version, verworfen
- * Harald Bernhard: NICHTS, da er die Gruppe verlassen hat, wodurch wir zu zweit die Arbeit von drei Leuten machen müssen.
+ * Harald Bernhard: NICHTS, da er die Gruppe verlassen hat, wodurch wir zu zweit die Arbeit von drei Leuten zu machen haben.
 */
 public class Test {
 	public static void main(String[] args) {
