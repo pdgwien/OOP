@@ -94,13 +94,13 @@ public class BuchdruckerKolonie implements Runnable {
     private List<Feld> filterHealthyFields(List<Feld> fields) {
         return fields.stream().filter(f -> !f.isEmpty() && f.getBuchdruckerKolonie().isHealthy()).collect(Collectors.toList());
     }
-    //Nachbedingung: fields unverändert
+    //Nachbedingung: fields unveraendert
 
 
     public boolean isHealthy() {
         return this.healthy;
     }
-    //Nachbedingung: healthy unverändert
+    //Nachbedingung: healthy unveraendert
 
     public void setHealthy(boolean healthy) {
         this.healthy = healthy;
@@ -109,12 +109,12 @@ public class BuchdruckerKolonie implements Runnable {
     public int getCounter() {
         return counter;
     }
-    //Nachbedingung: counter unverändert
+    //Nachbedingung: counter unveraendert
 
     public Feld getField() {
         return field;
     }
-    //Nachbedingung: field unverändert
+    //Nachbedingung: field unveraendert
 
     //Vorbedingung: current != null && neighbors != null
     private boolean acquireLocks(Feld current, List<Feld> neighbors) {

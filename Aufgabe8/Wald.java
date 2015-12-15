@@ -56,7 +56,7 @@ public class Wald {
     public int livingColonies() {
         return this.colony.size();
     }
-    //Nachbedingung: colony unverändert
+    //Nachbedingung: colony unveraendert
 
     //Vorbedingung: 0 < x < rows
     //Vorbedingung: 0 < y < rows
@@ -67,7 +67,7 @@ public class Wald {
         }
         return null;
     }
-    //Nachbedingung: felder unverändert
+    //Nachbedingung: felder unveraendert
 
     //Vorbedingung: 0 < x < rows
     //Vorbedingung: 0 < y < rows
@@ -96,7 +96,7 @@ public class Wald {
         }
         return output + "\n";
     }
-    //Nachbedingung: felder unverändert
+    //Nachbedingung: felder unveraendert
 
     //Vorbedingung: 0 < x < rows
     //Vorbedingung: 0 < y < rows
