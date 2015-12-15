@@ -1,128 +1,140 @@
-import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * @author Patrick Grosslicht <e1227085@student.tuwien.ac.at>
+ */
 public class Wald {
-	private final short[][] wald;
-	
-	// Bezieht sich auf die Kolonien, nicht auf den Wald !!
-	static final int GESUND = 1;
-	static final int KRANK = 2;
-	
-	public Wald( int width, int height) {
-		this.wald = new short[height][width];
-	}
-	
-	private void checkKolonien() {
-		for( int y = 0; y < this.wald.length; y++ ) {
-			for( int x = 0; x < this.wald[y].length; x++ ) {
-				if( this.allHealthy(x, y) ) {
-					this.wald[y][x] = Wald.KRANK;
-				}
-			}
-		}
-	}
-	
-	public boolean isFree( int x, int y ) {
-		boolean free = false;
-		try {
-			free = this.wald[y-1][x-1] == 0;
-		}
-		catch( ArrayIndexOutOfBoundsException e ) {}
-		return free;
-	}
-	
-	public boolean isFree( Point p ) {
-		return this.isFree(p.x, p.y);
-	}
-	
-	private synchronized boolean allHealthy( int x, int y ) {
-		boolean result = false;
-		try {
-			result = (this.wald[y][x] == Wald.GESUND &&
-				this.wald[y-1][x] == Wald.GESUND &&
-				this.wald[y-1][x+1] == Wald.GESUND &&
-				this.wald[y][x+1] == Wald.GESUND &&
-				this.wald[y+1][x+1] == Wald.GESUND &&
-				this.wald[y+1][x] == Wald.GESUND &&
-				this.wald[y+1][x-1] == Wald.GESUND &&
-				this.wald[y][x-1] == Wald.GESUND &&
-				this.wald[y-1][x-1] == Wald.GESUND);
-		}
-		catch( ArrayIndexOutOfBoundsException e ) {}
-		return result;
-	}
-	
-	public synchronized Point getNextFreeNeighbor( int x, int y ) {
-		ArrayList<Point> pointerRoulette = new ArrayList<>();
-		Random r = new Random();
-		// Nord
-		if( this.isFree(x, y-1) ) {
-			pointerRoulette.add(new Point(x, y-1));
-		}
-		// Nord-Ost
-		if( this.isFree(x+1, y-1) ) {
-			pointerRoulette.add(new Point(x+1, y-1));
-		}
-		// Ost
-		if( this.isFree(x+1, y) ) {
-			pointerRoulette.add(new Point(x+1, y));
-		}
-		// Süd-Ost
-		if( this.isFree(x+1, y+1) ) {
-			pointerRoulette.add(new Point(x+1, y+1));
-		}
-		// Süd
-		if( this.isFree(x, y+1) ) {
-			pointerRoulette.add(new Point(x, y+1));
-		}
-		// Süd-West
-		if( this.isFree(x-1, y+1) ) {
-			pointerRoulette.add(new Point(x-1, y+1));
-		}
-		// West
-		if( this.isFree(x-1, y) ) {
-			pointerRoulette.add(new Point(x-1, y));
-		}
-		// Kanye West's Tochter
-		if( this.isFree(x-1, y-1) ) {
-			pointerRoulette.add(new Point(x-1, y-1));
-		}
-		
-		if( !pointerRoulette.isEmpty() ) {
-			return pointerRoulette.get(r.nextInt(pointerRoulette.size()));
-		}
-		
-		return null;
-	}
-	
-	public Point getNextFreeNeighbor( Point p ) {
-		return this.getNextFreeNeighbor(p.x, p.y);
-	}
-	
-	public synchronized void gesund( int x, int y ) {
-		this.wald[y-1][x-1] = Wald.GESUND;
-	}
-	
-	public void gesund( Point p ) {
-		this.gesund(p.x, p.y);
-		this.checkKolonien();
-	}
-	
-	public synchronized void krank( int x, int y ) {
-		this.wald[y-1][x-1] = Wald.KRANK;
-	}
-	
-	public void krank( Point p ) {
-		this.krank(p.x, p.y);
-	}
-	
-	public void print() {
-		for (short[] wald1 : this.wald) {
-			for (short wald2 : wald1) {
-				System.out.print( wald2 == 1 ? " o" : ( wald2 == 2 ? " x" : "  " ) );
-			}
-			System.out.println("");
-		}
-	}
+    //Invariante: 0 < cols
+    private final int cols;
+    //Invariante: 0 < rows
+    private final int rows;
+    //Invariante: felder != null
+    private Feld[][] felder;
+    private List<BuchdruckerKolonie> colony = new CopyOnWriteArrayList<>();
+    private List<Thread> colonyThreads = new CopyOnWriteArrayList<>();
+    private boolean running = true;
+    //Invariante: name != null
+    private String name;
+
+    public Wald(int cols, int rows, String name) {
+        this.cols = cols;
+        this.rows = rows;
+        this.name = name;
+        this.felder = new Feld[cols][rows];
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                this.felder[i][j] = new Feld(i, j);
+            }
+        }
+    }
+    //Nachbedingung: 0 < cols
+    //Nachbedingung: 0 < rows
+    //Nachbedingung: felder != null
+    //Nachbedingung: name != null
+
+    //Vorbedingung: 0 < cols
+    //Vorbedingung: 0 < rows
+    //Vorbedingung: felder != null
+    public List<Feld> getNeighbors(int x, int y) {
+        List<Feld> neighbors = new ArrayList<>();
+        for (int xx = -1; xx <= 1; xx++) {
+            for (int yy = -1; yy <= 1; yy++) {
+                if (xx == 0 && yy == 0) {
+                    continue;
+                }
+                if (isOnMap(x + xx, y + yy)) {
+                    neighbors.add(this.felder[x + xx][y + yy]);
+                }
+            }
+        }
+        return neighbors;
+    }
+
+    //Vorbedingung: colony != null
+    public int livingColonies() {
+        return this.colony.size();
+    }
+    //Nachbedingung: colony unverändert
+
+    //Vorbedingung: 0 < x < rows
+    //Vorbedingung: 0 < y < rows
+    //Vorbedingung: felder != null
+    public Feld getField(int x, int y) {
+        if (isOnMap(x, y)) {
+            return this.felder[x][y];
+        }
+        return null;
+    }
+    //Nachbedingung: felder unverändert
+
+    //Vorbedingung: 0 < x < rows
+    //Vorbedingung: 0 < y < rows
+    //Vorbedingung: felder != null
+    @Override
+    public String toString() {
+        if (!this.running) {
+            return null;
+        }
+        String output = name + ": ";
+        synchronized (this) {
+            for (Feld[] rows : this.felder) {
+                for (Feld feld : rows) {
+                    if (feld.isEmpty()) {
+                        output += " ";
+                    } else {
+                        if (feld.getBuchdruckerKolonie().isHealthy()) {
+                            output += "o";
+                        } else {
+                            output += "x";
+                        }
+                    }
+                }
+                output += "\n" + name + ": ";
+            }
+        }
+        return output + "\n";
+    }
+    //Nachbedingung: felder unverändert
+
+    //Vorbedingung: 0 < x < rows
+    //Vorbedingung: 0 < y < rows
+    private boolean isOnMap(int x, int y) {
+        return x >= 0 && y >= 0 && x < this.cols && y < this.rows;
+    }
+
+    //Vorbedingung: colony != null
+    public void addColony(BuchdruckerKolonie buchdruckerKolonie) {
+        this.colony.add(buchdruckerKolonie);
+    }
+
+    //Vorbedingung: colonyThreads != null
+    public void addColonyThread(Thread thread) {
+        this.colonyThreads.add(thread);
+    }
+
+    //Vorbedingung: colony != null
+    public void removeColony(BuchdruckerKolonie buchdruckerKolonie) {
+        this.colony.remove(buchdruckerKolonie);
+    }
+
+
+    public void start() {
+        for (BuchdruckerKolonie buchdrucker: this.colony) {
+            Thread thread = new Thread(buchdrucker);
+            colonyThreads.add(thread);
+            thread.start();
+        }
+    }
+
+    public void stop() {
+        this.running = false;
+        for (Thread thread: this.colonyThreads) {
+            thread.interrupt();
+        }
+        for (BuchdruckerKolonie buchdrucker: this.colony) {
+            System.out.printf("Colony at %d|%d in %s: %d multiplications%n", buchdrucker.getField().getX(), buchdrucker.getField().getY(), this.name, buchdrucker.getCounter());
+        }
+    }
 }
